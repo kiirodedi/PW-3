@@ -6,7 +6,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<title>Copa do Mundo</title>
-
 	<!-- Bootstrap -->
 
 	<link
@@ -17,14 +16,25 @@
 	</head>
 
 	<body>
+		<h1>Página Inicial</h1>
+		<ul id="lista-selecoes"></ul> <script>
+    let base_url = "http://localhost:3000";
+    const lista = document.getElementById('lista-selecoes');
 
-	<div id="navbar"></div>
-
-	<main class="container mt-4" id="app"></main>
-
-	<div id="footer"></div>
-
-	<script type="module" src="./src/app/main.js"></script>
-
+    fetch(`${base_url}/selecoes`)
+        .then(response => response.json())
+        .then(dados => {
+            // Limpa a lista antes de preencher
+            lista.innerHTML = ""; 
+            
+            // Cria um item para cada seleção que vier da API
+            dados.forEach(selecao => {
+                const li = document.createElement('li');
+                li.textContent = selecao.nome; // Supondo que o campo no seu db.json se chame "nome"
+                lista.appendChild(li);
+            });
+        })
+        .catch(error => console.log('Erro ao carregar:', error));
+</script>
 	</body>
 	</html>
