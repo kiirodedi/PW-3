@@ -1,40 +1,89 @@
 <!DOCTYPE html>
-	<html lang="pt-BR">
-	<head>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Copa do Mundo ETEC</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body { background-color: #121212; color: white; } /* Fundo escuro pro título branco brilhar */
+        .grid-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; padding: 20px; }
+        .card-selecao { border: 1px solid #444; border-radius: 8px; padding: 15px; text-align: center; background-color: #1e1e1e; color: white; }
+        .card-selecao img { max-width: 100px; height: 80px; object-fit: contain; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="text-center text-white">Gerenciador de Seleções</h1>
+        <hr>
 
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <div class="card p-4 mb-4 bg-dark text-white border-secondary">
+            <h3>Cadastrar Nova Seleção</h3>
+            <form id="form-cadastro">
+                <div class="mb-3">
+                    <label class="form-label">Nome</label>
+                    <input type="text" id="nome" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Grupo</label>
+                    <input type="text" id="grupo" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">URL do Logo</label>
+                    <input type="url" id="logo" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-success w-100">Salvar Seleção</button>
+            </form>
+        </div>
 
-	<title>Copa do Mundo</title>
-	<!-- Bootstrap -->
+        <div id="lista-selecoes" class="grid-cards"></div>
+    </div>
 
-	<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	/>
+    <script>
+		const base_url = "http://localhost:3000";
+		const container = document.getElementById('lista-selecoes');
 
-	</head>
+		function buscarSelecoes() {
+			fetch(`${base_url}/selecoes`)
+			.then(res => res.json())
+			.then(dados => {
+				container.innerHTML = "";
+				dados.forEach(selecao => {
+					const card = document.createElement('div');
+					card.className = "card-selecao";
+					card.innerHTML = `
+						<img src="${selecao.logo}">
+						<h3>${selecao.nome}</h3>
+						<p>Grupo  ${selecao.grupo}</p>
+						<button class="btn btn-primary btn-sm w-100 mb-2">Ver Jogadores</button>
+						<button onclick="excluirSelecao(${selecao.id})" class="btn btn-danger btn-sm w-100">Excluir</button>
+					`;
+					container.appendChild(card);
+				})
+			})
+		}
 
-	<body>
-		<h1>Página Inicial</h1>
-		<ul id="lista-selecoes"></ul> <script>
-    let base_url = "http://localhost:3000";
-    const lista = document.getElementById('lista-selecoes');
+        // FUNÇÃO PARA CADASTRAR
+		document.getElementById('form-cadastro').addEventListener('submit', function(e) {
+			e.preventDefault();
 
-    fetch(`${base_url}/selecoes`)
-        .then(response => response.json())
-        .then(dados => {
-            // Limpa a lista antes de preencher
-            lista.innerHTML = ""; 
-            
-            // Cria um item para cada seleção que vier da API
-            dados.forEach(selecao => {
-                const li = document.createElement('li');
-                li.textContent = selecao.nome; // Supondo que o campo no seu db.json se chame "nome"
-                lista.appendChild(li);
-            });
-        })
-        .catch(error => console.log('Erro ao carregar:', error));
-</script>
-	</body>
-	</html>
+			const novaSelecao = {
+				nome: document.getElementById('nome').value,
+				grupo: document.getElementById('grupo').value,
+				logo: document.getElementById('logo').value
+			};
+
+			fetch(`${base_url}/selecoes`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(novaSelecao)    
+			}).then(() => {
+				this.reset();
+				buscarSelecoes();
+			});
+		});
+
+        // INICIALIZAÇÃO
+		buscarSelecoes();
+		    </script>
+</body>
+</html>
