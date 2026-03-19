@@ -63,70 +63,69 @@
         <div id="lista-jogadores" class="grid-cards"></div>
 
         <script>
-            const base_url = "http://localhost:3000";
-            const container = document.getElementById('lista-jogadores');
+    const base_url = "http://localhost:3000";
+    const container = document.getElementById('lista-jogadores');
 
-            function buscarJogadores() {
-                fetch(`${base_url}/jogadores`)
-                .then(res => res.json())
-                .then(dados => {
-                    container.innerHTML = "";
-                    dados.forEach(jogador => {
-                        const card = document.createElement('div');
-                        card.className = "card-jogador"
-                        card.innerHTML = `
-                            <img src="${jogador.img}">
-                            <h3>${jogador.nome}</h3>
-                            <p>${jogador.posicao} - Camisa ${jogador.camisa}</p>
-                            <p>${jogador.gols} gols marcados</p>
+    const params = new URLSearchParams(window.location.search);
+    const selecaoId = params.get('selecaoId');
 
-                            <button onclick="excluirJogador('${jogador.id}')" class="btn btn-danger btn-sm w-100">Excluir</button>
-                        `;
+    function buscarJogadores() {
+        fetch(`${base_url}/jogadores?selecaoId=${selecaoId}`)
+        .then(res => res.json())
+        .then(dados => {
+            container.innerHTML = "";
+            dados.forEach(jogador => {
+                const card = document.createElement('div');
+                card.className = "card-jogador"
+                card.innerHTML = `
+                    <img src="${jogador.img}">
+                    <h3>${jogador.nome}</h3>
+                    <p>${jogador.posicao} - Camisa ${jogador.camisa}</p>
+                    <p>${jogador.gols} gols marcados</p>
+                    <button onclick="excluirJogador('${jogador.id}')" class="btn btn-danger btn-sm w-100">Excluir</button>
+                `;
+                container.appendChild(card);
+            })
+        })
+    }
 
-                        container.appendChild(card);
-                    })
-                })
-            }
+    document.getElementById('form-cadastro').addEventListener('submit', function(e) {
+        e.preventDefault();
 
-            // FUNÇÃO PARA CADASTRAR
-            document.getElementById('form-cadastro').addEventListener('submit', function(e) {
-                e.preventDefault();
+        const novoJogador = {
+            nome: document.getElementById('nome').value,
+            img: document.getElementById('foto').value,
+            posicao: document.getElementById('posicao').value,
+            camisa: document.getElementById('camisa').value,
+            gols: document.getElementById('gols').value,
+            selecaoId: selecaoId
+        };
 
-                const novoJogador = {
-                    nome: document.getElementById('nome').value,
-                    img: document.getElementById('foto').value,
-                    posicao: document.getElementById('posicao').value,
-                    camisa: document.getElementById('camisa').value,
-                    gols: document.getElementById('gols').value,
-                    selecaoId: "1b82"
-                };
-
-                fetch(`${base_url}/jogadores`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(novoJogador)
-                }).then(() => {
-                    this.reset();
-                    buscarJogadores();
-                });
-            });
-
-            // FUNÇÃO PARA EXCLUIR
-            function excluirJogador(id) {
-                if(confirm("Tem certeza que deseja excluir esse jogador?")) {
-                    fetch(`${base_url}/jogadores/${id}`, {
-                        method: 'DELETE'
-                    })
-
-                    .then(() => {
-                        buscarJogadores();
-                    })
-                }
-            }
-
-            // INICIALIZAÇÃO
+        fetch(`${base_url}/jogadores`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(novoJogador)
+        }).then(() => {
+            this.reset();
             buscarJogadores();
-        </script>
+        });
+    });
+
+    // FUNÇÃO PARA EXCLUIR
+    function excluirJogador(id) {
+        if(confirm("Tem certeza que deseja excluir esse jogador?")) {
+            fetch(`${base_url}/jogadores/${id}`, {
+                method: 'DELETE'
+            })
+            .then(() => {
+                buscarJogadores();
+            })
+        }
+    }
+
+    // INICIALIZAÇÃO
+        buscarJogadores();
+</script>
     </div>
 </body>
 </html>

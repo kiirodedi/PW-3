@@ -17,6 +17,12 @@
       "nome": "Argentina",
       "grupo": "J",
       "logo": "https://upload.wikimedia.org/wikipedia/commons/1/1a/Flag_of_Argentina.svg"
+    },
+    {
+      "id": "d5e8",
+      "nome": "India",
+      "grupo": "S",
+      "logo": "https://th.bing.com/th/id/R.607b9f69862d76af04b474113c0c7ff5?rik=lfnOsbv7mhDNbQ&riu=http%3a%2f%2fupload.wikimedia.org%2fwikipedia%2fcommons%2fb%2fbc%2fFlag_of_India.png&ehk=Pk5lH0C%2fhstFahWfb15vLjtrJb3DslIU4%2fAQneo9IIM%3d&risl=&pid=ImgRaw&r=0"
     }
   ],
   "jogadores": [
@@ -46,6 +52,15 @@
       "gols": 5,
       "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2Jp1rmR9CFAOEFDYIGX3VMPiEmEx-7mhH4g&s",
       "selecaoId": "e197"
+    },
+    {
+      "id": "a29c",
+      "nome": "Habibi Youseff",
+      "img": "https://th.bing.com/th/id/R.990d04b959ae5305f5513de7ffe47991?rik=Yb6Pi3VUr83siw&riu=http%3a%2f%2fnews.bbcimg.co.uk%2fmedia%2fimages%2f51977000%2fjpg%2f_51977854_011676280-1.jpg&ehk=4dknw%2f615S8LpQ3Rd1OGphoSS0rcywpoBwap5egdSGo%3d&risl=&pid=ImgRaw&r=0",
+      "posicao": "Goleiro",
+      "camisa": "10",
+      "gols": "10",
+      "selecaoId": "d5e8"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
