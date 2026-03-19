@@ -2,88 +2,79 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Copa do Mundo ETEC</title>
+    <title>Copa do Mundo - Seleções</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <style>
-        body { background-color: #121212; color: white; } /* Fundo escuro pro título branco brilhar */
+        body { background-color: #121212; color: white; }
         .grid-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; padding: 20px; }
-        .card-selecao { border: 1px solid #444; border-radius: 8px; padding: 15px; text-align: center; background-color: #1e1e1e; color: white; }
+        .card-selecao { 
+            border: 1px solid #444; border-radius: 8px; padding: 15px; text-align: center; 
+            background-color: #1e1e1e; color: white; transition: transform 0.3s; cursor: pointer;
+        }
+        .card-selecao:hover { transform: scale(1.05); border-color: #198754; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
         .card-selecao img { max-width: 100px; height: 80px; object-fit: contain; margin-bottom: 10px; }
     </style>
 </head>
 <body>
     <div class="container mt-4">
-        <h1 class="text-center text-white">Gerenciador de Seleções</h1>
+        <h1 class="text-center">Gerenciador de Seleções</h1>
         <hr>
-
         <div class="card p-4 mb-4 bg-dark text-white border-secondary">
             <h3>Cadastrar Nova Seleção</h3>
             <form id="form-cadastro">
-                <div class="mb-3">
-                    <label class="form-label">Nome</label>
-                    <input type="text" id="nome" class="form-control" required>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Grupo</label>
-                    <input type="text" id="grupo" class="form-control" required>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">URL do Logo</label>
-                    <input type="url" id="logo" class="form-control" required>
-                </div>
+                <div class="mb-3"><label class="form-label">Nome</label><input type="text" id="nome" class="form-control" required></div>
+                <div class="mb-3"><label class="form-label">Grupo</label><input type="text" id="grupo" class="form-control" required></div>
+                <div class="mb-3"><label class="form-label">URL do Logo</label><input type="url" id="logo" class="form-control" required></div>
                 <button type="submit" class="btn btn-success w-100">Salvar Seleção</button>
             </form>
         </div>
-
         <div id="lista-selecoes" class="grid-cards"></div>
     </div>
 
     <script>
-		const base_url = "http://localhost:3000";
-		const container = document.getElementById('lista-selecoes');
+        const base_url = "http://localhost:3000";
+        const container = document.getElementById('lista-selecoes');
 
-		function buscarSelecoes() {
-			fetch(`${base_url}/selecoes`)
-			.then(res => res.json())
-			.then(dados => {
-				container.innerHTML = "";
-				dados.forEach(selecao => {
-					const card = document.createElement('div');
-					card.className = "card-selecao";
-					card.innerHTML = `
-						<img src="${selecao.logo}">
-						<h3>${selecao.nome}</h3>
-						<p>Grupo  ${selecao.grupo}</p>
-						<button class="btn btn-primary btn-sm w-100 mb-2">Ver Jogadores</button>
-						<button onclick="excluirSelecao(${selecao.id})" class="btn btn-danger btn-sm w-100">Excluir</button>
-					`;
-					container.appendChild(card);
-				})
-			})
-		}
+        function buscarSelecoes() {
+            fetch(`${base_url}/selecoes`)
+            .then(res => res.json())
+            .then(dados => {
+                container.innerHTML = "";
+                dados.forEach(selecao => {
+                    const card = document.createElement('div');
+                    card.className = "card-selecao";
+                    card.innerHTML = `
+                        <img src="${selecao.logo}">
+                        <h3>${selecao.nome}</h3>
+                        <p>Grupo ${selecao.grupo}</p>
+                        <button onclick="window.location.href='jogadores.html?selecaoId=${selecao.id}'" class="btn btn-primary btn-sm w-100 mb-2">Ver Jogadores</button>
+                        <button onclick="excluirSelecao('${selecao.id}')" class="btn btn-danger btn-sm w-100">Excluir</button>
+                    `;
+                    container.appendChild(card);
+                });
+            });
+        }
 
-        // FUNÇÃO PARA CADASTRAR
-		document.getElementById('form-cadastro').addEventListener('submit', function(e) {
-			e.preventDefault();
+        document.getElementById('form-cadastro').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const novaSelecao = {
+                nome: document.getElementById('nome').value,
+                grupo: document.getElementById('grupo').value,
+                logo: document.getElementById('logo').value
+            };
+            fetch(`${base_url}/selecoes`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(novaSelecao)
+            }).then(() => { this.reset(); buscarSelecoes(); });
+        });
 
-			const novaSelecao = {
-				nome: document.getElementById('nome').value,
-				grupo: document.getElementById('grupo').value,
-				logo: document.getElementById('logo').value
-			};
-
-			fetch(`${base_url}/selecoes`, {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(novaSelecao)    
-			}).then(() => {
-				this.reset();
-				buscarSelecoes();
-			});
-		});
-
-        // INICIALIZAÇÃO
-		buscarSelecoes();
-		    </script>
+        function excluirSelecao(id) {
+            if(confirm("Deseja excluir?")) {
+                fetch(`${base_url}/selecoes/${id}`, { method: 'DELETE' }).then(() => buscarSelecoes());
+            }
+        }
+        buscarSelecoes();
+    </script>
 </body>
 </html>

@@ -4,51 +4,48 @@
       "id": "1b82",
       "nome": "Brasil",
       "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/0/05/Flag_of_Brazil.svg/1200px-Flag_of_Brazil.svg.png",
-      "grupo": "G",
-      "jogadores": [
-        {
-          "id": 1,
-          "nome": "Neymar",
-          "camisa": 10,
-          "posicao": "Atacante",
-          "titular": true,
-          "gols": 79
-        },
-        {
-          "id": 2,
-          "nome": "Alisson",
-          "camisa": 1,
-          "posicao": "Goleiro",
-          "titular": true,
-          "gols": 0
-        },
-        {
-          "id": 3,
-          "nome": "Casemiro",
-          "camisa": 5,
-          "posicao": "Volante",
-          "titular": true,
-          "gols": 12
-        }
-      ]
+      "grupo": "G"
     },
     {
       "id": "e197",
       "nome": "Espanha",
-      "grupo": "H",
-      "logo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoiM7eM5LxZ9YUGzv4Hx5cyt5TH-7QjFDnhg&s"
+      "logo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoiM7eM5LxZ9YUGzv4Hx5cyt5TH-7QjFDnhg&s",
+      "grupo": "H"
     },
     {
-      "id": "06c4",
-      "nome": "Brasil",
-      "grupo": "G",
-      "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Flag_of_Brazil.svg/330px-Flag_of_Brazil.svg.png"
+      "id": "294d",
+      "nome": "Argentina",
+      "grupo": "J",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/1/1a/Flag_of_Argentina.svg"
+    }
+  ],
+  "jogadores": [
+    {
+      "id": "a1b2",
+      "nome": "Neymar",
+      "camisa": 10,
+      "posicao": "Atacante",
+      "gols": 79,
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReA6LeDUvcvkIPnWfAMBvvu3wEae2KMjtBXA&s",
+      "selecaoId": "1b82"
     },
     {
-      "id": "7930",
-      "nome": "abuabu",
-      "grupo": "ism",
-      "logo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlcaZemm9ef7I5cTqxh8eNNYdqxaO1sCUFHg&s"
+      "id": "c3d4",
+      "nome": "Alisson",
+      "camisa": 1,
+      "posicao": "Goleiro",
+      "gols": 0,
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQM0HucMTKNad9jExNxrT-W0q3w4mY4F5egbg&shttps://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQM0HucMTKNad9jExNxrT-W0q3w4mY4F5egbg&s",
+      "selecaoId": "1b82"
+    },
+    {
+      "id": "e5f6",
+      "nome": "Gavi",
+      "camisa": 9,
+      "posicao": "Meia",
+      "gols": 5,
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2Jp1rmR9CFAOEFDYIGX3VMPiEmEx-7mhH4g&s",
+      "selecaoId": "e197"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
