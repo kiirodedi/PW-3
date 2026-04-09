@@ -12,6 +12,9 @@ export function VeiculoCard({ veiculo }: Props) {
             <p>
                 Ano: {veiculo.ano} / {veiculo.ano_modelo}
             </p>
+            <p>
+                Fabricante: {veiculo.Fabricantes_id}
+            </p>
 
             <strong>
                 R$ {veiculo.valor.toLocaleString("pr-BR", {
@@ -19,6 +22,8 @@ export function VeiculoCard({ veiculo }: Props) {
                     currency: "BRL",
                 })}
             </strong>
+
+            <img src={veiculo.fotos} alt={veiculo.modelo} style={{width: '100%', marginTop: 10}} />
         </div>
     );
 }
