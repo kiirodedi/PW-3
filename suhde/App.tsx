@@ -1,13 +1,29 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { VeiculosList } from "./src/pages/VeiculosList";
 import { ListaVazia } from "./src/pages/ListaVazia";
+import { getVeiculos } from "./src/services/veiculoService";
+import type { Veiculo } from "./src/types/veiculo";
 
 export default function App() {
-  // 1. Aqui você teria o seu estado com os carros
-  // Se for [], ele renderiza a ListaVazia. Se tiver itens, renderiza a VeiculosList.
-  const [veiculos, setVeiculos] = useState([]); 
+  const [veiculos, setVeiculos] = useState<Veiculo[]>([]);
+  const [error, setError] = useState(false);
 
-  // 2. A estrutura do IF organizada:
+  useEffect(() => {
+    async function fetchVeiculos() {
+      try {
+        const data = await getVeiculos();
+        setVeiculos(data);
+      } catch {
+        setError(true);
+      }
+    }
+    fetchVeiculos();
+  }, []);
+
+  if (error) {
+    return <ListaVazia />;
+  }
+
   if (veiculos.length === 0) {
     return <ListaVazia />;
   }
